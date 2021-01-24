@@ -10,11 +10,77 @@
 <body>
     <header class="jumbotron" style="text-align: center;">
         <h1> <strong>Sweater Weather Checker</strong></h1>
-        <p>Don't forget your sunnies or scarves - input your postal code to get five day forecast</p>
+        <p>Don't forget your sunnies or scarves - input your postal code or city to get five day forecast</p>
     </header>
     <div class="container">
         <div class="row">
+            <div class="col-sm-3 bg-light">
+                <p>Enter City:</p>
+
+                <!-- section for input -->
+                <div class="input-group">
+                    <input type="text" id="city-input">
+                    <!-- Search button  -->
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-info">
+                            <span class="glyphicon glyphicon-search"></span> Search
+                          </button>
+                    </div>
+
+                </div>
+
+                
+
+            </div>
+            <!-- at a glance summary of current weather-->
+            <div class="col-sm-9">
+                <div class="row ml-2 border border-dark rounded">
+                    <div class="col-sm-12" id="current-weather">
+                        <h3 class="city-name " id="current-city"></h3>
+                        <p>Temperature:<span class="current" id="temperature"></span></p>
+                        <p>Humidity:<span class="current" id="humidity"></span></p> 
+                        <p>Wind Speed:<span class="current" id="wind-speed"></span></p>
+                        <p>UV index:<span class="current bg-danger rounded py-2 px-2 text-white" id="uv-index"></span></p> 
+                    </div>
+                </div>
+
+                <!-- Five Day forecast -->
+                <div class="col-sm-12" id ="future-weather">
+                    <h3>Keep an eye on the next 5-days:</h3>
+                    <div class="row text-light">
+                        <div class="col-sm-2 bg-info rounded mb-3 p-2 mt-2 ml-2 " >
+                            
+                            <p>Temp:<span id="day1temp"></span></p>
+                            <p>Humidity:<span id="day1humidity"></span></p>
+                        </div>
+                        <div class="col-sm-2 bg-info rounded mb-3 p-2 mt-2 ml-2 " >
+                            
+                            <p>Temp:<span id="day2temp"></span></p>
+                            <p>Humidity:<span id="day2humidity"></span></p>
+                        </div>
+                        <div class="col-sm-2 bg-info rounded mb-3 p-2 mt-2 ml-2 ">
+                        
+                            <p>Temp:<span id="day3temp"></span></p>
+                            <p>Humidity:<span id="day3humidity"></span></p>
+                        </div>
+                        <div class="col-sm-2 bg-info rounded mb-3 p-2 mt-2 ml-2 ">
+                        
+                            <p>Temp:<span id="day3temp"></span></p>
+                            <p>Humidity:<span id="day4humidity"></span></p>
+                        </div>
+                        <div class="col-sm-2 bg-info rounded mb-3 p-2 mt-2 ml-2 " >
+                        
+                            <p>Temp:<span id="day2temp"></span></p>
+                            <p>Humidity:<span id="day5humidity"></span></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             
+
+
+
         </div>
     </div>
 
