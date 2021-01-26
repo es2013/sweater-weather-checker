@@ -10,7 +10,7 @@
 <body>
     <header class="jumbotron" style="text-align: center;">
         <h1> <strong>Sweater Weather Checker</strong></h1>
-        <p>Don't forget your sunnies or scarves - input your postal code or city to get five day forecast</p>
+        <p>Don't forget your sunnies or scarves - input the city to get five day forecast</p>
     </header>
     <div class="container">
         <div class="row">
@@ -22,17 +22,18 @@
                     <input type="text" id="city-input">
                     <!-- Search button  -->
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-info">
+                        <button onclick="getWeather()" type="button" class="btn btn-info">
                             <span class="glyphicon glyphicon-search"></span> Search
                           </button>
                     </div>
 
                 </div>
-
-                
+                <!-- display city -->
+                <div class="city-text"></div>
 
             </div>
             <!-- at a glance summary of current weather-->
+            
             <div class="col-sm-9">
                 <div class="row ml-2 border border-dark rounded">
                     <div class="col-sm-12" id="current-weather">
@@ -44,7 +45,7 @@
                     </div>
                 </div>
 
-                <!-- Five Day forecast -->
+                <!-- Five Day forecast section with bootstrap classes -->
                 <div class="col-sm-12" id ="future-weather">
                     <h3>Keep an eye on the next 5-days:</h3>
                     <div class="row text-light">
@@ -83,7 +84,8 @@
 
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="assets/script.js"></script>
     
 </body>
 </html>
