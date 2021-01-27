@@ -28,15 +28,15 @@ let displayCity = function () {
 
     //to cityList, append new city searched
     $(cityListEl).empty();
-    
+
     //iterate over list of cities in citySearches
-    for (var i=0; i < citySearches.length; i++){
-    
+    for (var i = 0; i < citySearches.length; i++) {
+
         let liEl = document.createElement("li");
-        liEl.textContent=citySearches[i];
+        liEl.textContent = citySearches[i];
         cityListEl.appendChild(liEl);
-        
-     
+
+
     }
 
 
@@ -64,15 +64,31 @@ function getWeather() {
         .then(function (data) {
             console.log(data);
             // console.log(searchCity);
-            
+
 
             let currentWeather = document.querySelector("#current-city");
             document.querySelector("#current-city").textContent = data.name;
 
             //update content for other html fields using ID and textContent to replace values
-            document.querySelector("#wind-speed").textContent = " "+data.wind.speed;
-            document.querySelector("#humidity").textContent = " "+data.main.humidity +"%";
-            document.querySelector("#temperature").textContent = " "+data.main.temp + " Fº";
+            document.querySelector("#wind-speed").textContent = " " + data.wind.speed + " mph";
+            document.querySelector("#humidity").textContent = " " + data.main.humidity + "%";
+            document.querySelector("#temperature").textContent = " " + data.main.temp + " Fº";
+            let lat = data.coord.lat;
+            let long = data.coord.lon;
+            let uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&appid=d1dfd9b71c61f4f9b6151a02ee936efa"
+
+            console.log(uvURL);
+
+            //UV API Call
+            fetch("https://api.openweathermap.org/data/2.5/uvi?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&appid=d1dfd9b71c61f4f9b6151a02ee936efa")
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (uvdata) {
+                    console.log(uvdata);
+                    //add uvindex from second call
+                    document.querySelector("#uv-index").textContent = " " + uvdata.value;
+                })
 
 
 
