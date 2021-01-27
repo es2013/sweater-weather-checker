@@ -20,12 +20,12 @@ let displayCity = function () {
     let storedCity = localStorage.getItem('citylist')
     if (storedCity) {
         // parse JSON string to get list and push that list into citySearches
-        citySearches = citySearches.concat(JSON.parse(storedCity));
 
+        citySearches = citySearches.concat(JSON.parse(storedCity));
+        //limit the list of cities to 10
+        citySearches = citySearches.slice(0, 10);
     }
     localStorage.setItem('citylist', JSON.stringify(citySearches))
-
-
     //to cityList, append new city searched
     $(cityListEl).empty();
 
@@ -35,11 +35,7 @@ let displayCity = function () {
         let liEl = document.createElement("li");
         liEl.textContent = citySearches[i];
         cityListEl.appendChild(liEl);
-
-
     }
-
-
 }
 
 
@@ -63,7 +59,11 @@ function getWeather() {
         })
         .then(function (data) {
             console.log(data);
-            // console.log(searchCity);
+            //handle error for invalid city inputs
+            if (data.cod == 404) {
+                alert("Sweater weather can't find this city. Try a different city.");
+                return;
+             }
 
 
             let currentWeather = document.querySelector("#current-city");
@@ -76,7 +76,6 @@ function getWeather() {
             let lat = data.coord.lat;
             let long = data.coord.lon;
             let cityID = data.id;
-            // `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${appID}`
 
 
             //UV API Call
@@ -88,21 +87,28 @@ function getWeather() {
                     console.log(uvdata);
                     //add uvindex from second call
                     document.querySelector("#uv-index").textContent = " " + uvdata.value;
-                });
+                    
+                })
+                .catch(function() {
+                    alert("The city you entered is invalid")});
             fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=hourly,minutely,alerts&appid=${appID}&units=imperial`)
-            //https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
-            .then(function(response){
-                return response.json();
-            })
-            .then(function(fdata){
-                console.log(fdata)
-                for(var i=0;i<5;i++){
-                document.querySelector("#daytemp"+(i+1)).textContent = " "+fdata.daily[i].temp.day+" º F"
-                document.querySelector("#dayhumidity"+(i+1)).textContent = " "+fdata.daily[i].humidity+" º F"
-            }
-                // document.querySelector("#day2temp").textContent = " "+fdata.daily[1].temp.day+" º F"
-                // document.querySelector("#day2humidity").textContent = " "+fdata.daily[1].humidity+" º F"
-            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (fdata) {
+                    console.log(fdata)
+                    //0 index from API is todays date. starting at 1 for forecast
+
+                    for (var i = 1; i < 6; i++) {
+                        dateString = moment.unix(fdata.daily[i].dt).format('L')
+                        document.querySelector("#day" + i).textContent = dateString
+
+                        document.querySelector("#daytemp" + i).textContent = " " + fdata.daily[i].temp.day + " º F"
+                        $("#icon" + i).attr("src", `http://openweathermap.org/img/wn/${fdata.daily[i].weather[0].icon}@2x.png`)
+                        document.querySelector("#dayhumidity" + i).textContent = " " + fdata.daily[i].humidity + " %"
+                    }
+
+                })
 
 
 
