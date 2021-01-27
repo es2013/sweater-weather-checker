@@ -1,13 +1,14 @@
 let cityInputEl = document.querySelector("#city-input");
 let cityTextEl = document.querySelector(".city-text");
 let searchButtonEl = document.querySelector("button");
+let cityListEl = document.querySelector(".city-list");
 
 
-// add event listener that listens for cityInput
-cityInputEl.addEventListener("input", function (city) {
-    cityTextEl.textContent = city.target.value;
+// // add event listener that listens for cityInput
+// cityInputEl.addEventListener("input", function (city) {
+//     cityTextEl.textContent = city.target.value;
 
-});
+// });
 
 //create a function that saves the city  to citySearches list everytime i click on button
 let displayCity = function () {
@@ -26,6 +27,18 @@ let displayCity = function () {
 
 
     //to cityList, append new city searched
+    $(cityListEl).empty();
+    
+    //iterate over list of cities in citySearches
+    for (var i=0; i < citySearches.length; i++){
+    
+        let liEl = document.createElement("li");
+        liEl.textContent=citySearches[i];
+        cityListEl.appendChild(liEl);
+        
+     
+    }
+
 
 }
 
