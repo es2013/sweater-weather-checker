@@ -49,13 +49,13 @@ displayCity();
 searchButtonEl.addEventListener("click", displayCity);
 
 
-//my apikey for openweather "d1dfd9b71c61f4f9b6151a02ee936efa"
+let appID = "d1dfd9b71c61f4f9b6151a02ee936efa"
 
 function getWeather() {
     // Use `.value` to capture the value of the input and store it in the variable
     var searchCity = document.querySelector('#city-input').value;
     fetch(
-        `http://api.openweathermap.org/data/2.5/weather?&appid=d1dfd9b71c61f4f9b6151a02ee936efa&q=${searchCity}` + '&units=imperial'
+        `http://api.openweathermap.org/data/2.5/weather?&appid=${appID}&q=${searchCity}` + '&units=imperial'
 
     )
         .then(function (response) {
@@ -72,15 +72,15 @@ function getWeather() {
             //update content for other html fields using ID and textContent to replace values
             document.querySelector("#wind-speed").textContent = " " + data.wind.speed + " mph";
             document.querySelector("#humidity").textContent = " " + data.main.humidity + "%";
-            document.querySelector("#temperature").textContent = " " + data.main.temp + " Fº";
+            document.querySelector("#temperature").textContent = " " + data.main.temp + " º F";
             let lat = data.coord.lat;
             let long = data.coord.lon;
-            let uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&appid=d1dfd9b71c61f4f9b6151a02ee936efa"
+            let cityID = data.id;
+            // `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${appID}`
 
-            console.log(uvURL);
 
             //UV API Call
-            fetch("https://api.openweathermap.org/data/2.5/uvi?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&appid=d1dfd9b71c61f4f9b6151a02ee936efa")
+            fetch(`https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${appID}`)
                 .then(function (response) {
                     return response.json();
                 })
@@ -88,11 +88,27 @@ function getWeather() {
                     console.log(uvdata);
                     //add uvindex from second call
                     document.querySelector("#uv-index").textContent = " " + uvdata.value;
-                })
+                });
+            fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=hourly,minutely,alerts&appid=${appID}&units=imperial`)
+            //https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+            .then(function(response){
+                return response.json();
+            })
+            .then(function(fdata){
+                console.log(fdata)
+                for(var i=0;i<5;i++){
+                document.querySelector("#daytemp"+(i+1)).textContent = " "+fdata.daily[i].temp.day+" º F"
+                document.querySelector("#dayhumidity"+(i+1)).textContent = " "+fdata.daily[i].humidity+" º F"
+            }
+                // document.querySelector("#day2temp").textContent = " "+fdata.daily[1].temp.day+" º F"
+                // document.querySelector("#day2humidity").textContent = " "+fdata.daily[1].humidity+" º F"
+            })
+
 
 
 
         });
+
 }
 
 
