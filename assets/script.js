@@ -64,15 +64,15 @@ function getWeather() {
         .then(function (data) {
             console.log(data);
             // console.log(searchCity);
+            
 
             let currentWeather = document.querySelector("#current-city");
-            let cityTitle = document.createElement('h3');
+            document.querySelector("#current-city").textContent = data.name;
 
-
-            //get name of city input into current weather section
-            cityTitle.textContent = data.name;
-            currentWeather.appendChild(cityTitle);
-
+            //update content for other html fields using ID and textContent to replace values
+            document.querySelector("#wind-speed").textContent = " "+data.wind.speed;
+            document.querySelector("#humidity").textContent = " "+data.main.humidity +"%";
+            document.querySelector("#temperature").textContent = " "+data.main.temp + " Fº";
 
 
 
